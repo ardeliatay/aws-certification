@@ -33,6 +33,8 @@ Can be used in the following ways:
 * No servers
 * Scales out (not up) automatically
   * Can have functions running in parallel at the same time
+* Lambda functions are independent, 1 event = 1 function
+  * But lambda functions can trigger other lambda functions so really 1 evemt can = x functions if functions trigger other functions
 * Inexpensive
 
 ### Exam Tips
@@ -124,5 +126,59 @@ _This is a way for API Gateway to talk to S3_
 * **Qualified ARN:** The function ARN with the version suffix, uses $latest
 * **Unqualified ARN:** The function ARN without the version suffix
 
-## Alias
-Name that maps to a specific version of your function
+### Alias
+* Name that maps to a specific version of your function
+* Can split traffic using aliases to differents, but cannot split traffic with $latest.  Instead, create an alias to latest
+
+## Step functions
+* provides a graphical console to arrange and visualize the components of your application as a series of steps
+* automatically triggers and tracks each step, logs the state of each step, and retries when there are errors
+
+![Screenshot](docs/sequential-steps.png)
+
+![Screenshot](docs/branching-steps.png)
+
+![Screenshot](docs/parallel-steps.png)
+
+_for the exam, just need to know what step functions are (no need for different types)_
+
+## X-Ray
+* A service that collects data about requests that your application serves, and provides tools you can use to view, filter, and gain insights into that data to identify issues and opportunities for optimization
+* Can also see info about calls that your app makes to downstream AWS resources, microservices, DBs and HTTP web APIs
+
+### Architecture
+X-Ray SDK sends JSON to X-Ray Daemon which then sends to X-Ray API
+
+X-Ray API stores data and creates X-Ray visualization (console)
+
+### X-Ray SDK provides...
+* Interceptors to add your code to trace incoming HTTP Requests
+* Client handlers to instrument AWS SDK clients tht your application uses to call other AWS services
+* An HTTP client to use to instrument calls to other internal and external web services
+
+### Integration with other AWS services
+* Elastic Load Balancer
+* AWS Lambda
+* API Gateway
+* EC2
+* Elastic Beanstalk
+
+### Languages
+Supports Java, Go, Node.js, Python, Ruby, .Net
+
+## Advanced APIn Gateway
+
+### Import APIs
+* Can use *API Gateway Import* feature to import an API from an external definition file into API Gateway
+* Currently this feature supports *Swagger v2.0* definition files
+* Can either create a new API by submitting a POST request that includes a Swagger definition in the payload and endpoint configuration, or can update an existing API by using a PUT request
+  * Can update an API by overwriting it with a new definition or merge a definition with an existing API
+* Then specify the options using a mode query parameter in the request URL
+
+### API Throttling (two ways of throttling)
+* By default API Gateway limits the steady-state request rate to 10,000 requests/second
+* Max # of concurrent requests is 5000 across all APIs within an AWS account
+* If you go over 10,000 rps or 5000 concurrent requests you will receive a *429 Too Many Request* error
+
+### SOAP Webservice Passthrough
+* It is possible to configure API Gateway as a SOAP Webservice passthrough

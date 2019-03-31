@@ -105,7 +105,7 @@ Rounded up, each write will need 1 Write CU per write operation
 * Don't need to specify your requirements, DynamoDB instantly scales up and down based on activity of your application
 * Good for unpredictable workloads
 
-![Screenshot](docs/parallel-steps.png)
+![Screenshot](docs/capacity.png)
 
 ## DynamoDB Accellorator (DAX)
 * A fully managed, clustered in-memory cache for DynamoDB
@@ -188,3 +188,25 @@ Rounded up, each write will need 1 Write CU per write operation
 * good for removing irrelevant or old data (ex. session data, event logs, temporary data)
 * reduces cost by automatically removing data
 * set in unix time
+
+## Streams
+* Time-ordered sequence of item level modifications (insert, update, delete)
+* Actions are recorded as logs, which are encrypted at rest and stored for 24 hours
+* Accessed using their own dedicated endpoint
+* By default, Primary Key is recorded
+* Can also capture state of item before and after change
+* Good for serverless architectures
+* Events are recorded in near real-time
+* Can be used as an event source for Lambda so you can create applications which take actions based on events in your DynamoDB table
+
+![Screenshot](docs/streams.png)
+
+## Provisioned Throughput Exceeded Exception
+* May see `ProvisionedThroughPutExceededException` if your request rate is too high for the read/write capacity provisioned on your table
+* SDK automatically retries requests until successful
+* If not using SDK, can reduce request frequency or use _exponential backoff_
+
+##Exponential Backoff
+* Progressively longer waits between consecutive retries of failed requests
+* Improves flow control
+* A feature of every AWS SDK (not just DynamoDB)

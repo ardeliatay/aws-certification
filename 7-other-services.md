@@ -60,3 +60,65 @@ Normally, with regular short polling (default), will continue pulling (asking if
 * $0.06 per 100,000 notification deliveries over HTTP
 * $0.75 per 100 notification deliveries over SMS
 * $2.00 per 100,000 notification deliveries over email
+
+# Simple Email Service (SES)
+* Email service designed to help you send marketing, notification, and transactional emails to your customers
+* Pay as you go
+* can also be used to receive email - incoming emails can be delivered automatically to an S3 bucket
+* incoming mails can be used to trigger lambda functions and SNS notifications
+* email only
+
+### Use cases
+* automated emails
+* purchase confirmations, shipping mails, order status updates
+* marketing communications, advertisements, newsletters, special offers
+
+![Screenshot](docs/sns-ses.png)
+
+# Elastic Beanstalk
+### What is it?
+* A service for deploying and scaling web apps - Elastic Beanstalk will handle deployment, capacity provisioning, load balancing, auto-scaling and application health
+* Fastest and simplest way to deploy your app in AWS
+* You only pay for AWS resources required to store and run your applications
+* automatically scales your app up and down
+* Can manage EC2 instances for you or you can take full administrative control
+
+## Updating Elastic Beanstalk
+### EBS Deployment policies (important for exam!)
+Elastic beanstalk supports several options for processing deployments:
+* all at once
+* rolling
+* rolling with additional batch
+* immutable
+
+*All at Once*
+* updates and deploys the new version to all instances simultaneously
+* all of your instances are out of service while the deployment takes place
+* will experience and outage while deployment is taking place
+* if update fails, will need to roll back the changes by re-deploying the original version to all your instances
+
+*Rolling*
+* deploys new version in batches
+* each batch of instances is taken out of service while deployment takes place
+* your environment capacity will be reduced by the number of instances in a batch while deployment takes place
+* not ideal for performance sensitive systems
+* if update fails, need to perform an additional rolling update to roll back the changes
+
+*Rolling with additional batch*
+* launches an additional batch of instances
+* deploys the new version in batches
+* maintains full capacity during the deployment process
+* if update fails, will need to perform an additional rolling update to roll back the changes
+* good for when you cannot afford down time
+
+*Immutable*
+* deploys the new version to a fresh group of instances in their own autoscaling group
+* when new instances pass their health checks, they are moved to your existing auto scaling group and the old instances are terminated
+* maintains full capacity during deployment process
+* rollback process requires only terminating the new auto scaling group
+* preferred option for mission critical production systems
+
+## Advanced ElasticBeanstalk
+* Can customize your Elastic Beanstalk environment using Elastic Beanstalk configuration files
+* Files written in YAML or JSON format
+* Can have filename of your choice but must have `.config extension` and be saved inside a folder called `.ebextentions` that is in the top-level directory of your application 

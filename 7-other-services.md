@@ -8,13 +8,13 @@
 * messages can be kept in the queue from 1 minute to 14 days, default retention period is 4 days
 
 ### Two types of queues
-*Standard Queue (default)*
+**Standard Queue (default)**
 * allows nearly unlimited number of transactions per second
 * guarantees that a message is delivered at least once
 * duplicates may occur
 * best-effort ordering to ensure messages are generally delivered in the same order as they are sent
 
-*FIFO*
+**FIFO**
 * order in which messages are sent and received is strictly preserved
 * a message is delivered once and remains available until a consumer processes and deletes it
 * duplicates are not introduced into queue
@@ -92,27 +92,27 @@ Elastic beanstalk supports several options for processing deployments:
 * rolling with additional batch
 * immutable
 
-*All at Once*
+**All at Once**
 * updates and deploys the new version to all instances simultaneously
 * all of your instances are out of service while the deployment takes place
 * will experience and outage while deployment is taking place
 * if update fails, will need to roll back the changes by re-deploying the original version to all your instances
 
-*Rolling*
+**Rolling**
 * deploys new version in batches
 * each batch of instances is taken out of service while deployment takes place
 * your environment capacity will be reduced by the number of instances in a batch while deployment takes place
 * not ideal for performance sensitive systems
 * if update fails, need to perform an additional rolling update to roll back the changes
 
-*Rolling with additional batch*
+**Rolling with additional batch**
 * launches an additional batch of instances
 * deploys the new version in batches
 * maintains full capacity during the deployment process
 * if update fails, will need to perform an additional rolling update to roll back the changes
 * good for when you cannot afford down time
 
-*Immutable*
+**Immutable**
 * deploys the new version to a fresh group of instances in their own autoscaling group
 * when new instances pass their health checks, they are moved to your existing auto scaling group and the old instances are terminated
 * maintains full capacity during deployment process
@@ -146,37 +146,38 @@ Elastic beanstalk supports several options for processing deployments:
 
 ### Core Kinesis services
 _know this for exam_
-*Kinesis streams*
+**Kinesis streams**
 * data producers (Ec2, mobile device, laptop) send data to kinesis streams
 * data stored in shards
 * stores data for 24 hours by default, can increase to 7 days retention
 * total capacity of the stream is the sum of the capacities of its shards
 * data consumers (like EC2 instances) pipe data from shards and does something with it, then send data to be stored by other AWS services (like DynamoDB, S3 etc)
 
-*Kinesis firehose*
+**Kinesis firehose**
 * data producers (Ec2, mobile device, laptop) send data to kinesis firehose
 * no retention period. As soon as data is received, it is analyzed using lambda or sent directly to S3 or another location
 * automated process, no consumers
 
-*Kinesis analytics*
+**Kinesis analytics**
 * a way to analyze data inside kinesis stream and/or kinesis firehose using SQL type queries
 * can then use SQL queries to store data inside S3, redshift, elasticsearch cluster
 
-##Quiz
-*Your EC2 instances download jobs from an SQS queue. However, they are taking too long to process the messages. What API call can you use to extend the length of time to process the jobs?*
+## Quiz
+
+**Your EC2 instances download jobs from an SQS queue. However, they are taking too long to process the messages. What API call can you use to extend the length of time to process the jobs?**
 `ChangeMessageVisibility`
 
-*Which Amazon service can you use in conjunction with SQS to \"fan out\" SQS messages to multiple queues.*
+**Which Amazon service can you use in conjunction with SQS to \"fan out\" SQS messages to multiple queues.**
 _SNS_
 
-*What is the maximum long poll time out?*
+**What is the maximum long poll time out?**
 _20 seconds_
 
-*You are designing a new application that processes payments and delivers promotional emails to customers. You need to ensure that the payment process takes priority over the creation and delivery of emails. How might you use SQS to achieve this.*
-_Use 2 SQS queues for the platform. Have the EC2 fleet poll the payment SQS queue first. If the queue is empty, poll the promotional emails queue
+**You are designing a new application that processes payments and delivers promotional emails to customers. You need to ensure that the payment process takes priority over the creation and delivery of emails. How might you use SQS to achieve this.**
+_Use 2 SQS queues for the platform. Have the EC2 fleet poll the payment SQS queue first. If the queue is empty, poll the promotional emails queue_
 
-*SNS messages cannot be customized by protocol type.*
+**SNS messages cannot be customized by protocol type.**
 _false_
 
-*Which of these is a protocol NOT supported by SNS: HTTP, email, FTP, Email-JSON*
+**Which of these is a protocol NOT supported by SNS: HTTP, email, FTP, Email-JSON**
 _FTP_

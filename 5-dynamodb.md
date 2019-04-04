@@ -80,16 +80,16 @@
 * DPT is measured in Capacity units
 * When you create your table, you need to specify your requirements in terms of Read CU and Write CU
 * 1 x Write CU = 1 x 1KB Write per second
-* 1 x Read CU = 1 x Strongly Consistent Read of 4KB per second *or* 2 x Eventually Consistent Reads of 4KB per second (default)
+* 1 x Read CU = 1 x Strongly Consistent Read of 4KB per second **or** 2 x Eventually Consistent Reads of 4KB per second (default)
 
-_*Example calculation 1 *_
+_*Example calculation 1*_
 Your application needs to read 80 items per second and each item is 3KB in size, and you need Strongly Consistent Reads.
 
 3KB / 4KB = 0.75
 Round to nearest whole number, so 1 Read CU needed for each read operation
 
 Multiple by number of reads per second
-*1 x 80 = 80 Read CU required*
+**1 x 80 = 80 Read CU required**
 
 _For Eventually Consistent Reads, will need to divide 80 by 2 so only need 40 Read CU for Eventually Consistent reads_
 
@@ -154,23 +154,23 @@ Rounded up, each write will need 1 Write CU per write operation
 * loads data into the cache only when necessary
 * if data is not in cache or has expired, elasticache returns null. Your app then fetches data from DB and writes data received into the cache so it is available next time
 
-*Advantages*
+**Advantages**
 * Only requested data is cached: avoids filling cache with useless data
 * Node failures are not fatal. If elasticache fails, a new node will just have a lot of cache misses initially
 
-*Disadvantages*
+**Disadvantages**
 * cache miss penalty: if you want to retrieve data not in the cache, will have to query DB instead
 * stale data: if data is only updated when there is a cache miss, can become stale. Does not automatically update if data in DB changes
 
-* To deal with stale data, can add *Time to Live (TTL)*, which specifies number of seconds until the key expires. Lazy loading treats an expired key as a cache miss, so will retrieve data from DB
+* To deal with stale data, can add **Time to Live (TTL)**, which specifies number of seconds until the key expires. Lazy loading treats an expired key as a cache miss, so will retrieve data from DB
 
 #### Write-through
 * adds or updtes data to cache whenever data is written to the DB
 
-*advantages*
+**advantages**
 * data in cache never stale
 
-*disadvantages*
+**disadvantages**
 * write-penalty: every write involves a write to the cache as well as a write to the DB
 * if a node fails and new one spun up, data is missing until added or updated in the DB (can mitigate by using lazy loading in conjunction)
 * wasted resources if most data is never read

@@ -17,9 +17,9 @@ _Can never export CMK_
 ### CMK set up
 * create alias and description
 * choose material optional
-* define key *administrative permissions*
+* define key **administrative permissions**
   * which user/role can administer (but not use) the key
-* define key *usage permissions* 
+* define key **usage permissions**
   * which user/role can use key to encrypt/decrypt data
 
 ## KMS API calls
@@ -29,7 +29,7 @@ _Can never export CMK_
 * `aws kms enable-key-rotation`
 
 ## Envelope Encryption
-* The process of encrypting your *envelope key* (ie. the key you use to encrypt your data)
+* The process of encrypting your **envelope key** (ie. the key you use to encrypt your data)
 * Envelope key sometimes called data key
 * To unencrypt, take master key and do encryption algorithm on encrypted data key and turn into plain text, then use plain text data key to decrypt data
 

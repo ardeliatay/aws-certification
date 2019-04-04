@@ -1,6 +1,7 @@
 # Simple Queue Service (SQS)
 ### What is it?
 * Service that gives you access to a message queue that can be used to store messages that are awaiting processing
+* The first service on AWS platform
 * A pull-base system (pulls messages(jobs) down)
 * Using SQS, you can decouple the components of an app so they run independently for easier message management
 * Messages can contain up tp 256 KB of text in any format
@@ -121,4 +122,61 @@ Elastic beanstalk supports several options for processing deployments:
 ## Advanced ElasticBeanstalk
 * Can customize your Elastic Beanstalk environment using Elastic Beanstalk configuration files
 * Files written in YAML or JSON format
-* Can have filename of your choice but must have `.config extension` and be saved inside a folder called `.ebextentions` that is in the top-level directory of your application 
+* Can have filename of your choice but must have `.config extension` and be saved inside a folder called `.ebextentions` that is in the top-level directory of your application
+
+## RDS & Elastic beanstalk
+### two ways to integrate with RDS database
+* Launch RDS instance from within Elastic Beanstalk console
+  * Quick and easy to get started
+  * Suitable for test and dev environment only
+  * Not ideal for production because lifecycle of your DB is tied to the lifecyrcle of your application environment. If you terminate the environment, the DB instance will be terminated too
+* Launch outside of Elastic beanstalk, directly from the RDS section of the console
+  * Additional configuration steps required
+    - security group must be added to your environment's auto-scaling group
+    - provide connection string configuration information to your application servers
+  * Preferred option for production environment
+
+## Kinesis
+### What is streaming data?
+* Data that is generated continuously by thousands of data sources, which typically send in the data records simultaneously, and in small sizes
+  * ex. purchases from online store, stock prices, data from games, social network data, geospatial data
+
+### What is kinesis?
+* A platform you can send your streaming data to, makes it easy to load and analyze streaming data, and provides ability for you to build your own custom applications
+
+### Core Kinesis services
+_know this for exam_
+*Kinesis streams*
+* data producers (Ec2, mobile device, laptop) send data to kinesis streams
+* data stored in shards
+* stores data for 24 hours by default, can increase to 7 days retention
+* total capacity of the stream is the sum of the capacities of its shards
+* data consumers (like EC2 instances) pipe data from shards and does something with it, then send data to be stored by other AWS services (like DynamoDB, S3 etc)
+
+*Kinesis firehose*
+* data producers (Ec2, mobile device, laptop) send data to kinesis firehose
+* no retention period. As soon as data is received, it is analyzed using lambda or sent directly to S3 or another location
+* automated process, no consumers
+
+*Kinesis analytics*
+* a way to analyze data inside kinesis stream and/or kinesis firehose using SQL type queries
+* can then use SQL queries to store data inside S3, redshift, elasticsearch cluster
+
+##Quiz
+*Your EC2 instances download jobs from an SQS queue. However, they are taking too long to process the messages. What API call can you use to extend the length of time to process the jobs?*
+`ChangeMessageVisibility`
+
+*Which Amazon service can you use in conjunction with SQS to \"fan out\" SQS messages to multiple queues.*
+_SNS_
+
+*What is the maximum long poll time out?*
+_20 seconds_
+
+*You are designing a new application that processes payments and delivers promotional emails to customers. You need to ensure that the payment process takes priority over the creation and delivery of emails. How might you use SQS to achieve this.*
+_Use 2 SQS queues for the platform. Have the EC2 fleet poll the payment SQS queue first. If the queue is empty, poll the promotional emails queue
+
+*SNS messages cannot be customized by protocol type.*
+_false_
+
+*Which of these is a protocol NOT supported by SNS: HTTP, email, FTP, Email-JSON*
+_FTP_

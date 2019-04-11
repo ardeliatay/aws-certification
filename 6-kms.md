@@ -3,6 +3,7 @@
 * Key Management Service - a managed service that makes it easy for you to create and control the encryption keys used to encrypt your data
 * Encryption keys are regional
 * Uses multitenant hardware
+* takes 7-30 days to encrypt keys
 
 ### Customer Master Key consists of...
 * alias (name)

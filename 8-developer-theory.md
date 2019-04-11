@@ -18,7 +18,7 @@
 ### AWS tools
 * **CodeCommit**: based on Git - managed source control service enabling you to create own private git repo within AWS
 
-* **CodeBuilt**: fully managed build serevice - compiles source code, runs basic tests, create software packages that are ready to deploy into your environment, also provide codeDeploy
+* **CodeBuild**: fully managed build service - compiles source code, runs basic tests, create software packages that are ready to deploy into your environment, also provide codeDeploy
 
 * **CodeDeploy**: automated application deploy service - can deploy to ec2 instances, on premises systems, and lambda
 * Two deployment approaches available
@@ -56,6 +56,7 @@
     - _BeforeAllowTraffic_: used to specify the tasks or functions you want to run before traffic is routed to the newly deployed Lambda function (ex. test to validate that the function has been deployed correctly)
     - _AfterAllowTraffic_: used to specify the tasks or functions you want to run after the traffic has been routed to the newly deployed lambda function (ex. test to validate that the function is accepting traffic correctly and behaving as expected)
 * EC2 deployments
+  * written in YAML
   * contains:
     - _version_
     - _os_: the OS version you are using
@@ -132,3 +133,7 @@
     - only mandatory section
   - `TimeoutInMinutes`
     - time that CloudFormation will wait for the nested stack to complete. Default is no timeout
+
+## Quiz
+**You want to recieve an email whenever a user pushes code to your CodeCommit repository, how can you configure this?**
+Configure notifications in the console, this will create a CloudWatch Events rule to send a notification to an SNS topic which will trigger an email to be sent to the user
